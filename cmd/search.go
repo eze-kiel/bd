@@ -10,8 +10,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var bd birthdays
-
 // searchCmd represents the search command
 var searchCmd = &cobra.Command{
 	Use:   "search",

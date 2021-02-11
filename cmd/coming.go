@@ -16,7 +16,6 @@ var comingCmd = &cobra.Command{
 	Short: "Display coming birthdays",
 	Long:  `Display all the birthday that will occur in less than a month (31 days).`,
 	Run: func(cmd *cobra.Command, args []string) {
-		var bd birthdays
 		home, err := getHomeDir()
 		if err != nil {
 			logrus.Fatalf("cannot find user home directory: %s", err)

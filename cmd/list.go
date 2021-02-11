@@ -27,7 +27,6 @@ var listCmd = &cobra.Command{
 	Short: "List all the saved birthdays",
 	Long:  `List all the people and birthdays that are registered in the base.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		var bd birthdays
 		home, err := getHomeDir()
 		if err != nil {
 			logrus.Fatalf("cannot find user home directory: %s", err)

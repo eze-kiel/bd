@@ -22,7 +22,6 @@ var insertCmd = &cobra.Command{
 	Short: "Insert a birthday date into the base",
 	Long:  `Insert a person into the base. A name and a date of birth will be asked.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		var bd birthdays
 		home, err := getHomeDir()
 		if err != nil {
 			logrus.Fatalf("cannot find user home directory: %s", err)
@@ -42,24 +41,7 @@ var insertCmd = &cobra.Command{
 		}
 
 		bd.Birthdays = append(bd.Birthdays, entry{Name: name, Dob: dob})
-
-		data, err := json.Marshal(bd)
-		if err != nil {
-			logrus.Fatalf("cannot write to JSON file: %s", err)
-		}
-
-		f, err := os.OpenFile(file, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
-		if err != nil {
-			logrus.Fatalf("cannot open %s: %s", file, err)
-		}
-		defer f.Close()
-
-		err = f.Truncate(0)
-		_, err = f.Write(data)
-		if err != nil {
-			logrus.Fatalf("cannot write new entry to %s: %s", file, err)
-		}
-
+		bd.updateDatabase(file)
 		logrus.Infof("successfully created new entry for %s", name)
 	},
 }
@@ -99,4 +81,23 @@ func askInput(label string) (string, error) {
 	}
 
 	return result, nil
+}
+
+func (bd birthdays) updateDatabase(file string) {
+	data, err := json.Marshal(bd)
+	if err != nil {
+		logrus.Fatalf("cannot write to JSON file: %s", err)
+	}
+
+	f, err := os.OpenFile(file, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
+	if err != nil {
+		logrus.Fatalf("cannot open %s: %s", file, err)
+	}
+	defer f.Close()
+
+	err = f.Truncate(0)
+	_, err = f.Write(data)
+	if err != nil {
+		logrus.Fatalf("cannot write new entry to %s: %s", file, err)
+	}
 }
