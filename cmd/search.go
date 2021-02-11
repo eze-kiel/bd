@@ -3,8 +3,11 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
+
+var bd birthdays
 
 // searchCmd represents the search command
 var searchCmd = &cobra.Command{
@@ -16,6 +19,12 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
+	ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+		if len(args) != 0 {
+			return nil, cobra.ShellCompDirectiveNoFileComp
+		}
+		return bd.getNames(toComplete), cobra.ShellCompDirectiveNoFileComp
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("search called")
 	},
@@ -23,14 +32,19 @@ to quickly create a Cobra application.`,
 
 func init() {
 	rootCmd.AddCommand(searchCmd)
+	home, err := getHomeDir()
+	if err != nil {
+		logrus.Fatalf("cannot find user home directory: %s", err)
+	}
 
-	// Here you will define your flags and configuration settings.
+	file := home + "/.bd/dates.json"
+	bd.readBirthdays(file)
+}
 
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// searchCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// searchCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+func (bd birthdays) getNames(pfx string) []string {
+	var names []string
+	for _, p := range bd.Birthdays {
+		names = append(names, p.Name)
+	}
+	return names
 }
