@@ -79,6 +79,12 @@ The nicest way I found to use it is to create `/etc/apt/apt.conf.d/100update` wh
 APT::Update::Pre-Invoke {"runuser -u root -- /home/ezekiel/.bin/bd coming 2>&1 | /usr/games/lolcat";};
 ```
 
+And then linking your local database with root's one:
+
+```
+# mkdir /root/.bd
+# ln -s /home/username/.bd/dates.json /root/.bd/dates.json
+```
 Now each time you will execute `sudo apt update`, it will display a flashy colored banner at the top of the output with the incoming birthdays.
 
 [![bd with apt update](https://asciinema.org/a/IZGQb4wvlNdmVThLKl25gMfeU.svg)](https://asciinema.org/a/IZGQb4wvlNdmVThLKl25gMfeU)
