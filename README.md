@@ -4,6 +4,18 @@ Manage a database of birthday dates from the terminal !
 
 <img align="center" src="./img/21.png" width="250" height="250" />
 
+- [Demo](#demo)
+- [Gettin' started](#gettin-started)
+  - [Get the binary](#get-the-binary)
+  - [Setup the files](#setup-the-files)
+- [Usage](#usage)
+- [Completion](#completion)
+  - [Bash](#bash)
+  - [Zsh](#zsh)
+  - [Fish](#fish)
+- [License](#license)
+- [Credits](#credits)
+
 ## Demo
 
 [![bd in action](https://asciinema.org/a/wrCm3ZEcBpDuLpIxwDSMo27jh.svg)](https://asciinema.org/a/wrCm3ZEcBpDuLpIxwDSMo27jh)
@@ -57,6 +69,18 @@ Available Commands:
 Flags:
   -h, --help   help for bd
 ```
+
+## Integration ideas
+
+The nicest way I found to use it is to create `/etc/apt/apt.conf.d/100update` which will contain:
+
+```bash
+APT::Update::Pre-Invoke {"runuser -u root -- /home/ezekiel/.bin/bd coming 2>&1 | /usr/games/lolcat";};
+```
+
+Now each time you will execute `sudo apt update`, it will display a flashy colored banner at the top of the output with the incoming birthdays.
+
+[![bd with apt update](https://asciinema.org/a/IZGQb4wvlNdmVThLKl25gMfeU.svg)](https://asciinema.org/a/IZGQb4wvlNdmVThLKl25gMfeU)
 
 ## Completion
 
