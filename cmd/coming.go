@@ -24,6 +24,8 @@ var comingCmd = &cobra.Command{
 		file := home + "/.bd/dates.json"
 		bd.readBirthdays(file)
 
+		bd.sortDatabaseByDays()
+
 		table := tablewriter.NewWriter(os.Stdout)
 		table.SetHeader([]string{"Name", "Date of Birth", "Days remaining"})
 		table.SetAlignment(tablewriter.ALIGN_CENTER)

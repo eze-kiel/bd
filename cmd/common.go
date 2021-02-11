@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"sort"
+	"strconv"
 	"strings"
 	"time"
 
@@ -69,4 +71,45 @@ func getRemainingDays(date string) (string, error) {
 	}
 
 	return fmt.Sprintf("%0.f", days), nil
+}
+
+func (bd *birthdays) sortDatabaseByDob() {
+	sort.Slice(bd.Birthdays, func(p, q int) bool {
+		d1, err := time.Parse("02-01", bd.Birthdays[p].Dob[0:5])
+		if err != nil {
+			logrus.Fatalf("cannot parse %s: %s", bd.Birthdays[p].Dob, err)
+		}
+
+		d2, err := time.Parse("02-01", bd.Birthdays[q].Dob[0:5])
+		if err != nil {
+			logrus.Fatalf("cannot parse %s: %s", bd.Birthdays[q].Dob, err)
+		}
+		return d1.Before(d2)
+	})
+}
+
+func (bd *birthdays) sortDatabaseByDays() {
+	sort.Slice(bd.Birthdays, func(p, q int) bool {
+		days1, err := getRemainingDays(bd.Birthdays[p].Dob)
+		if err != nil {
+			logrus.Fatalf("cannot get remaining days of %s: %s", bd.Birthdays[p].Name, err)
+		}
+
+		daysInt1, err := strconv.Atoi(days1)
+		if err != nil {
+			logrus.Fatalf("cannot convert %s to int: %s", days1, err)
+		}
+
+		days2, err := getRemainingDays(bd.Birthdays[q].Dob)
+		if err != nil {
+			logrus.Fatalf("cannot get remaining days of %s: %s", bd.Birthdays[q].Name, err)
+		}
+
+		daysInt2, err := strconv.Atoi(days2)
+		if err != nil {
+			logrus.Fatalf("cannot convert %s to int: %s", days2, err)
+		}
+
+		return daysInt1 < daysInt2
+	})
 }

@@ -34,6 +34,16 @@ var listCmd = &cobra.Command{
 		file := home + "/.bd/dates.json"
 		bd.readBirthdays(file)
 
+		sortByDays, err := cmd.Flags().GetBool("days")
+		if err != nil {
+			logrus.Fatalf("cannot parse days flag: %s", err)
+		}
+		if sortByDays {
+			bd.sortDatabaseByDays()
+		} else {
+			bd.sortDatabaseByDob()
+		}
+
 		table := tablewriter.NewWriter(os.Stdout)
 		table.SetHeader([]string{"Name", "Date of Birth", "Days remaining"})
 		table.SetAlignment(tablewriter.ALIGN_CENTER)
@@ -57,6 +67,7 @@ var listCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(listCmd)
+	listCmd.Flags().BoolP("days", "d", false, "Sort by remaining days")
 }
 
 func (bd *birthdays) readBirthdays(f string) error {
