@@ -96,7 +96,7 @@ Now each time you will execute `sudo apt update`, it will display a flashy color
 You can add the courcing command to your `.bashrc`:
 
 ```
-$ echo "source <(yourprogram completion bash)" > .bashrc
+$ echo "source <(bd completion bash)" > .bashrc
 ```
 
 Or exectute the following:
@@ -124,7 +124,7 @@ $ bd completion zsh > "${fpath[1]}/_bd"
 To load completions for each session, execute once:
 
 ```
-$ yourprogram completion fish > ~/.config/fish/completions/yourprogram.fish
+$ bd completion fish > ~/.config/fish/completions/bd.fish
 ```
 
 ## License
