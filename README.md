@@ -4,17 +4,18 @@ Manage a database of birthday dates from the terminal !
 
 <img align="center" src="./img/21.png" width="250" height="250" />
 
-- [Demo](#demo)
-- [Gettin' started](#gettin-started)
-  - [Get the binary](#get-the-binary)
-  - [Setup the files](#setup-the-files)
-- [Usage](#usage)
-- [Completion](#completion)
-  - [Bash](#bash)
-  - [Zsh](#zsh)
-  - [Fish](#fish)
-- [License](#license)
-- [Credits](#credits)
+  - [Demo](#demo)
+  - [Gettin' started](#gettin-started)
+    - [Get the binary](#get-the-binary)
+    - [Setup the files](#setup-the-files)
+  - [Usage](#usage)
+  - [Integration ideas](#integration-ideas)
+  - [Completion](#completion)
+    - [Bash](#bash)
+    - [Zsh](#zsh)
+    - [Fish](#fish)
+  - [License](#license)
+  - [Credits](#credits)
 
 ## Demo
 
