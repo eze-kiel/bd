@@ -23,8 +23,17 @@ var comingCmd = &cobra.Command{
 
 		file := home + "/.bd/dates.json"
 		bd.readBirthdays(file)
-
 		bd.sortDatabaseByDays()
+
+		threshold, err := cmd.Flags().GetInt("threshold")
+		if err != nil {
+			logrus.Fatalf("cannot parse threshold flag: %s", err)
+		}
+
+		if threshold < 0 {
+			logrus.Warnf("cannot use negative values as threshold, using default (31)")
+			threshold = 31
+		}
 
 		table := tablewriter.NewWriter(os.Stdout)
 		table.SetHeader([]string{"Name", "Date of Birth", "Days remaining"})
@@ -41,7 +50,7 @@ var comingCmd = &cobra.Command{
 				logrus.Fatalf("cannot convert %s to int: %s", days, err)
 			}
 
-			if daysInt > 31 {
+			if daysInt > threshold {
 				continue
 			}
 
@@ -59,4 +68,5 @@ var comingCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(comingCmd)
+	comingCmd.Flags().IntP("threshold", "t", 31, "Set the threshold from which a birthday is marked as 'coming'")
 }
