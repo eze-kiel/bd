@@ -2,7 +2,10 @@ package cmd
 
 import (
 	"fmt"
+	"os"
+	"strings"
 
+	"github.com/olekukonko/tablewriter"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -26,7 +29,28 @@ to quickly create a Cobra application.`,
 		return bd.getNames(toComplete), cobra.ShellCompDirectiveNoFileComp
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("search called")
+		table := tablewriter.NewWriter(os.Stdout)
+		table.SetHeader([]string{"Name", "Date of Birth", "Days remaining"})
+		table.SetAlignment(tablewriter.ALIGN_CENTER)
+
+		for _, people := range bd.Birthdays {
+			if people.Name != args[0] {
+				continue
+			}
+			days, err := getRemainingDays(people.Dob)
+			if err != nil {
+				logrus.Fatalf("cannot get remaining days of %s: %s", people.Name, err)
+			}
+
+			data := []string{people.Name, people.Dob, days}
+			table.Append(data)
+		}
+
+		if table.NumLines() > 0 {
+			table.Render()
+		} else {
+			fmt.Println("No birthdays coming soon")
+		}
 	},
 }
 
@@ -42,9 +66,17 @@ func init() {
 }
 
 func (bd birthdays) getNames(pfx string) []string {
-	var names []string
-	for _, p := range bd.Birthdays {
-		names = append(names, p.Name)
+	var namesInList []string
+	var namesToComplete []string
+
+	for _, n := range bd.Birthdays {
+		namesInList = append(namesInList, n.Name)
 	}
-	return names
+
+	for _, n := range namesInList {
+		if strings.HasPrefix(n, pfx) {
+			namesToComplete = append(namesToComplete, n)
+		}
+	}
+	return namesToComplete
 }
