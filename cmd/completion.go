@@ -7,19 +7,19 @@ import (
 )
 
 var completionCmd = &cobra.Command{
-	Use:   "completion [bash|zsh|fish|powershell]",
+	Use:   "completion [bash|zsh|fish]",
 	Short: "Generate completion script",
 	Long: `To load completions:
 
 Bash:
 
-  $ source <(yourprogram completion bash)
+  $ source <(bd completion bash)
 
   # To load completions for each session, execute once:
   # Linux:
-  $ yourprogram completion bash > /etc/bash_completion.d/yourprogram
+  $ bd completion bash > /etc/bash_completion.d/bd
   # macOS:
-  $ yourprogram completion bash > /usr/local/etc/bash_completion.d/yourprogram
+  $ bd completion bash > /usr/local/etc/bash_completion.d/bd
 
 Zsh:
 
@@ -29,23 +29,23 @@ Zsh:
   $ echo "autoload -U compinit; compinit" >> ~/.zshrc
 
   # To load completions for each session, execute once:
-  $ yourprogram completion zsh > "${fpath[1]}/_yourprogram"
+  $ bd completion zsh > "${fpath[1]}/_bd"
 
   # You will need to start a new shell for this setup to take effect.
 
 fish:
 
-  $ yourprogram completion fish | source
+  $ bd completion fish | source
 
   # To load completions for each session, execute once:
-  $ yourprogram completion fish > ~/.config/fish/completions/yourprogram.fish
+  $ bd completion fish > ~/.config/fish/completions/bd.fish
 
 PowerShell:
 
-  PS> yourprogram completion powershell | Out-String | Invoke-Expression
+  PS> bd completion powershell | Out-String | Invoke-Expression
 
   # To load completions for every new session, run:
-  PS> yourprogram completion powershell > yourprogram.ps1
+  PS> bd completion powershell > bd.ps1
   # and source this file from your PowerShell profile.
 `,
 	DisableFlagsInUseLine: true,
