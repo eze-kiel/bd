@@ -18,13 +18,13 @@ var deleteCmd = &cobra.Command{
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		var name string
-		for idx, p := range bd.Birthdays {
-			if p.Name != args[0] {
-				continue
-			}
-			bd.removeFromDatabase(idx)
-			name = p.Name
+		idx := bd.getNameIndex(args[0])
+		if idx < 0 {
+			logrus.Errorf("no entry corresponding to %s found", args[0])
+			return
 		}
+		bd.removeFromDatabase(idx)
+		name = args[0]
 
 		home, err := getHomeDir()
 		if err != nil {

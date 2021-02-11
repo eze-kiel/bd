@@ -21,6 +21,7 @@ var searchCmd = &cobra.Command{
 		return bd.getNames(toComplete), cobra.ShellCompDirectiveNoFileComp
 	},
 	Run: func(cmd *cobra.Command, args []string) {
+		askChoice("Overwrite ?")
 		table := tablewriter.NewWriter(os.Stdout)
 		table.SetHeader([]string{"Name", "Date of Birth", "Days remaining"})
 		table.SetAlignment(tablewriter.ALIGN_CENTER)

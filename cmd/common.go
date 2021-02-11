@@ -113,3 +113,12 @@ func (bd *birthdays) sortDatabaseByDays() {
 		return daysInt1 < daysInt2
 	})
 }
+
+func (bd birthdays) getNameIndex(name string) int {
+	for idx, p := range bd.Birthdays {
+		if p.Name == name {
+			return idx
+		}
+	}
+	return -1
+}

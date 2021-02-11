@@ -32,6 +32,17 @@ var insertCmd = &cobra.Command{
 		if err != nil {
 			logrus.Fatalf("cannot read name: %s", err)
 		}
+		var yes string
+		if len(bd.getNames(name)) != 0 {
+			logrus.Warnf("%s is already in the database", name)
+			yes = askChoice("Overwrite")
+			if yes != "y" {
+				logrus.Infof("insertion cancelled")
+				return
+			}
+
+			bd.removeFromDatabase(bd.getNameIndex(name))
+		}
 
 		dob, err := askInput("Date of Birth (DD-MM-YYYY)")
 		if err != nil {
@@ -79,4 +90,18 @@ func askInput(label string) (string, error) {
 	}
 
 	return result, nil
+}
+
+func askChoice(label string) string {
+	prompt := promptui.Prompt{
+		Label:     label,
+		IsConfirm: true,
+	}
+
+	_, err := prompt.Run()
+	if err != nil {
+		return "n"
+	}
+
+	return "y"
 }
