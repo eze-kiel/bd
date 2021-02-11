@@ -3,7 +3,6 @@ package cmd
 import (
 	"fmt"
 	"os"
-	"strings"
 
 	"github.com/olekukonko/tablewriter"
 	"github.com/sirupsen/logrus"
@@ -56,20 +55,4 @@ func init() {
 
 	file := home + "/.bd/dates.json"
 	bd.readBirthdays(file)
-}
-
-func (bd birthdays) getNames(pfx string) []string {
-	var namesInList []string
-	var namesToComplete []string
-
-	for _, n := range bd.Birthdays {
-		namesInList = append(namesInList, n.Name)
-	}
-
-	for _, n := range namesInList {
-		if strings.HasPrefix(n, pfx) {
-			namesToComplete = append(namesToComplete, n)
-		}
-	}
-	return namesToComplete
 }

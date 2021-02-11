@@ -22,7 +22,7 @@ var deleteCmd = &cobra.Command{
 			if p.Name != args[0] {
 				continue
 			}
-			bd.remove(idx)
+			bd.removeFromDatabase(idx)
 			name = p.Name
 		}
 
@@ -47,9 +47,4 @@ func init() {
 
 	file := home + "/.bd/dates.json"
 	bd.readBirthdays(file)
-}
-
-func (bd *birthdays) remove(i int) {
-	bd.Birthdays[i] = bd.Birthdays[len(bd.Birthdays)-1]
-	bd.Birthdays = bd.Birthdays[:len(bd.Birthdays)-1]
 }

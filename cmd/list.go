@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"time"
 
 	"github.com/olekukonko/tablewriter"
 	"github.com/sirupsen/logrus"
@@ -66,25 +65,4 @@ func (bd *birthdays) readBirthdays(f string) error {
 		return err
 	}
 	return json.Unmarshal(data, &bd)
-}
-
-func getRemainingDays(date string) (string, error) {
-	dob, err := time.Parse(dateLayout, date)
-	if err != nil {
-		return "", err
-	}
-	curr := time.Now().Format(dateLayout)
-	t2, err := time.Parse(dateLayout, curr)
-	if err != nil {
-		return "", err
-	}
-
-	var t1 time.Time
-	t1 = dob.AddDate(t2.Year()-dob.Year(), 0, 0)
-	days := t1.Sub(t2).Hours() / 24
-	if days < 0 {
-		days = 365 + days
-	}
-
-	return fmt.Sprintf("%0.f", days), nil
 }

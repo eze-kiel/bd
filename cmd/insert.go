@@ -1,9 +1,7 @@
 package cmd
 
 import (
-	"encoding/json"
 	"errors"
-	"os"
 	"strings"
 
 	"github.com/manifoldco/promptui"
@@ -81,23 +79,4 @@ func askInput(label string) (string, error) {
 	}
 
 	return result, nil
-}
-
-func (bd birthdays) updateDatabase(file string) {
-	data, err := json.Marshal(bd)
-	if err != nil {
-		logrus.Fatalf("cannot write to JSON file: %s", err)
-	}
-
-	f, err := os.OpenFile(file, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
-	if err != nil {
-		logrus.Fatalf("cannot open %s: %s", file, err)
-	}
-	defer f.Close()
-
-	err = f.Truncate(0)
-	_, err = f.Write(data)
-	if err != nil {
-		logrus.Fatalf("cannot write new entry to %s: %s", file, err)
-	}
 }
